@@ -6,3 +6,6 @@ class Books (models.Model):
                                 default=None, null=True)
     author_name = models.ForeignKey(Author, on_delete=models.CASCADE,
                                     related_name='book_author')
+
+    def __str__(sefl):
+        return self.bookname

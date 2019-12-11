@@ -7,9 +7,10 @@ from django.http import Http404
 
 
 class AuthorListView(APIView):
-    """ List all the Authors """
+    """ API View for listing and creating new Authors """
 
     def get_objects(self):
+        """ Get all the Author records and return"""
         return Author.objects.all()
 
     def get(self, request):
@@ -21,7 +22,6 @@ class AuthorListView(APIView):
     def post(self, request):
         """ Create new Author """
         serializers = AuthorSerializers(data=request.data)
-        print(serializers.is_valid())
         if serializers.is_valid(raise_exception=True):
             serializers.save()
             return Response(serializers.data,status=status.HTTP_201_CREATED)
@@ -33,6 +33,9 @@ class AuthorActionView(APIView):
     """ Class view for managing update / delete etc actions """
 
     def get_object(self, pk):
+        """ Based on the primary key fetch the Author details from DB
+            else raise not found error 
+        """
         try:
             return Author.objects.get(pk=pk)
         except Author.DoesNotExist:
